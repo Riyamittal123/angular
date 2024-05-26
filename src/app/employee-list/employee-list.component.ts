@@ -1,32 +1,30 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
-import { EmployeeFormComponent } from '../employee-form/employee-form.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { EmployeeFormComponent } from '../employee-form/employee-form.component';
 
 @Component({
   selector: 'app-employee-list',
   templateUrl: './employee-list.component.html',
   styleUrls: ['./employee-list.component.css']
 })
-export class EmployeeListComponent implements OnInit {
+export class EmployeeListComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['name', 'phone', 'email', 'actions'];
   dataSource = new MatTableDataSource<any>([]);
-  selectedContact: any = null;
-  showForm: boolean = false;
+  contacts: any[] = [];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  contacts: any[] = [];
 
-  constructor(public dialog: MatDialog,private snackBar: MatSnackBar) {}
+  constructor(public dialog: MatDialog, private snackBar: MatSnackBar) {}
 
   ngOnInit() {
     this.loadContacts();
-    
   }
+
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -39,35 +37,23 @@ export class EmployeeListComponent implements OnInit {
       verticalPosition: 'top',
     });
   }
-  saveContact(contact: any) {
-    if (this.selectedContact) {
-      const index = this.contacts.findIndex(c => c === this.selectedContact);
-      this.contacts[index] = contact;
-    } else {
-      this.contacts.push(contact);
-    }
-    localStorage.setItem('contacts', JSON.stringify(this.contacts));
-    this.loadContacts();
-    this.showForm = false;
-    this.openSnackBar('Contact added successfully');
-  }
 
-  openDialog() {
+  openDialog(contact: any = null) {
     const dialogRef = this.dialog.open(EmployeeFormComponent, {
       width: '400px',
-      data: this.selectedContact
+      data: contact
     });
 
     dialogRef.componentInstance.save.subscribe((formData: any) => {
-      if (this.selectedContact) {
-        const index = this.contacts.findIndex(c => c === this.selectedContact);
+      if (contact) {
+        const index = this.contacts.findIndex(c => c === contact);
         this.contacts[index] = formData;
       } else {
         this.contacts.push(formData);
       }
       localStorage.setItem('contacts', JSON.stringify(this.contacts));
       this.loadContacts();
-      dialogRef.close();
+      this.openSnackBar(contact ? 'Contact updated successfully' : 'Contact added successfully');
     });
 
     dialogRef.componentInstance.cancel.subscribe(() => {
@@ -76,8 +62,7 @@ export class EmployeeListComponent implements OnInit {
   }
 
   editContact(contact: any) {
-    this.selectedContact = contact;
-    this.openDialog();
+    this.openDialog(contact);
   }
 
   loadContacts() {
@@ -88,11 +73,6 @@ export class EmployeeListComponent implements OnInit {
     } catch (error) {
       console.error('Error loading contacts:', error);
     }
-  }
-
-  openForm() {
-    this.selectedContact = null;
-    this.showForm = true;
   }
 
   deleteContact(contact: any) {
@@ -106,5 +86,4 @@ export class EmployeeListComponent implements OnInit {
       }
     }
   }
-  
 }

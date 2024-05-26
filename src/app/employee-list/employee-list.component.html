@@ -1,40 +1,38 @@
 <div class="container">
-    <h1 style="text-align: center;">Employee Details</h1>
-    <button mat-raised-button color="primary" style="float: right; margin-bottom: 10px;" (click)="openDialog()">Add Contact</button>
-    
-    <app-employee-form *ngIf="showForm" [contact]="selectedContact"></app-employee-form>
-    
-    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 employee-table">
+  <h1 style="text-align: center;">Employee Details</h1>
+  <button mat-raised-button color="primary" style="float: right; margin-bottom: 10px;" (click)="openDialog()">Add Contact</button>
+  
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 employee-table">
       <!-- Name Column -->
       <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-        <td mat-cell *matCellDef="let contact">{{ contact.name }}</td>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+          <td mat-cell *matCellDef="let contact">{{ contact.name }}</td>
       </ng-container>
-  
+      
       <!-- Phone Column -->
       <ng-container matColumnDef="phone">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Phone</th>
-        <td mat-cell *matCellDef="let contact">{{ contact.phone }}</td>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Phone</th>
+          <td mat-cell *matCellDef="let contact">{{ contact.phone }}</td>
       </ng-container>
-  
+      
       <!-- Email Column -->
       <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
-        <td mat-cell *matCellDef="let contact">{{ contact.email }}</td>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+          <td mat-cell *matCellDef="let contact">{{ contact.email }}</td>
       </ng-container>
-  
+      
       <!-- Actions Column -->
       <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>Actions</th>
-        <td mat-cell *matCellDef="let contact">
-          <button mat-button color="accent" (click)="editContact(contact)">Edit</button>
-          <button mat-button color="warn" (click)="deleteContact(contact)">Delete</button>
-        </td>
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let contact">
+              <button mat-button color="accent" (click)="editContact(contact)">Edit</button>
+              <button mat-button color="warn" (click)="deleteContact(contact)">Delete</button>
+          </td>
       </ng-container>
-  
+      
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-    
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-  </div>
+  </table>
+  
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>

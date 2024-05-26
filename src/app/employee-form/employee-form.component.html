@@ -2,29 +2,29 @@
   <mat-form-field>
     <mat-label>Name</mat-label>
     <input matInput formControlName="name" required>
-    <mat-error *ngIf="name.invalid && (name.dirty || name.touched)">
-      <span *ngIf="name.errors?.['required']">Name is required</span>
+    <mat-error *ngIf="employeeForm.controls['name'].invalid && (employeeForm.controls['name'].dirty || employeeForm.controls['name'].touched)">
+      <span *ngIf="employeeForm.controls['name'].errors?.['required']">Name is required</span>
     </mat-error>
   </mat-form-field>
 
   <mat-form-field>
     <mat-label>Phone Number</mat-label>
     <input matInput formControlName="phone" required maxlength="10" pattern="[0-9]*">
-    <mat-error *ngIf="phone.invalid && (phone.dirty || phone.touched)">
-      <span *ngIf="phone.errors?.['required']">Phone number is required</span>
-      <span *ngIf="phone.errors?.['pattern']">Phone number must be numeric</span>
-      <span *ngIf="phone.errors?.['maxlength']">Phone number must be 10 digits</span>
+    <mat-error *ngIf="employeeForm.controls['phone'].invalid && (employeeForm.controls['phone'].dirty || employeeForm.controls['phone'].touched)">
+      <span *ngIf="employeeForm.controls['phone'].errors?.['required']">Phone number is required</span>
+      <span *ngIf="employeeForm.controls['phone'].errors?.['pattern']">Phone number must be numeric</span>
+      <span *ngIf="employeeForm.controls['phone'].errors?.['maxlength']">Phone number must be 10 digits</span>
     </mat-error>
   </mat-form-field>
 
   <mat-form-field>
     <mat-label>Email</mat-label>
     <input matInput formControlName="email" required email>
-    <mat-error *ngIf="email.invalid && (email.dirty || email.touched)">
-      <span *ngIf="email.errors?.['required']">Valid email is required</span>
-      <span *ngIf="email.errors?.['email']">Email must be a valid email address</span>
+    <mat-error *ngIf="employeeForm.controls['email'].invalid && (employeeForm.controls['email'].dirty || employeeForm.controls['email'].touched)">
+      <span *ngIf="employeeForm.controls['email'].errors?.['required']">Valid email is required</span>
+      <span *ngIf="employeeForm.controls['email'].errors?.['email']">Email must be a valid email address</span>
     </mat-error>
   </mat-form-field>
 
-  <button mat-raised-button color="primary" type="submit">Save</button>
+  <button mat-raised-button color="primary" type="submit" [disabled]="employeeForm.invalid">Save</button>
 </form>
